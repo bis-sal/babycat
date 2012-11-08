@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE digester-rules PUBLIC
+  "-//Apache Commons //DTD digester-rules XML V1.0//EN"
+  "http://commons.apache.org/digester/dtds/digester-rules-3.0.dtd">
+  
+<digester-rules>
+	<object-create-rule pattern="Server" classname="dev.foursix.xml.model.Server" />
+	
+	<set-properties-rule pattern="Server">
+		<alias attr-name="port" prop-name="port" />
+		<alias attr-name="SHUTDOWN" prop-name="SHUTDOWN" />
+	</set-properties-rule>
+	
+	<pattern value="Listener">
+		<object-create-rule classname="dev.foursix.xml.model.Listener" />
+		<set-properties-rule>
+			<alias attr-name="className" prop-name="className" />
+			<alias attr-name="SSLEngine" prop-name="SSLEngine" />
+		</set-properties-rule>		
+		<set-next-rule methodname="addListener"/>		
+	</pattern>
+	
+	<pattern value="GlobalNamingResources">
+		<object-create-rule classname="dev.foursix.xml.model.GlobalNamingResources" />
+		
+		<pattern value="Resource">
+			<object-create-rule classname="dev.foursix.xml.model.Resource" />
+			<set-properties-rule>
+				<alias attr-name="name" prop-name="name" />
+				<alias attr-name="auth" prop-name="auth" />
+				<alias attr-name="type" prop-name="type" />
+				<alias attr-name="description" prop-name="description" />
+				<alias attr-name="factory" prop-name="factory" />
+				<alias attr-name="pathname" prop-name="pathname" />
+			</set-properties-rule>
+			<set-next-rule methodname="addResource"/>
+		</pattern>
+		
+		<set-next-rule methodname="addGlobalNamingResources"/>		
+	</pattern>
+	
+	<pattern value="Service">
+		<object-create-rule classname="dev.foursix.xml.model.Service" />
+		
+		<set-properties-rule>
+			<alias attr-name="name" prop-name="name" />
+		</set-properties-rule>
+		
+		<pattern value="Connector">
+			<object-create-rule classname="dev.foursix.xml.model.Connector" />
+			<set-properties-rule>
+				<alias attr-name="port" prop-name="port" />
+				<alias attr-name="protocol" prop-name="protocol" />
+				<alias attr-name="type" prop-name="type" />
+				<alias attr-name="connectionTimeout" prop-name="connectionTimeout" />
+				<alias attr-name="redirectPort" prop-name="redirectPort" />
+			</set-properties-rule>
+			<set-next-rule methodname="addConnector"/>		
+		</pattern>
+		
+		<pattern value="Engine">
+			<object-create-rule classname="dev.foursix.xml.model.Engine" />
+			<set-properties-rule>
+				<alias attr-name="name" prop-name="name" />
+				<alias attr-name="defaultHost" prop-name="defaultHost" />
+			</set-properties-rule>
+			
+			<pattern value="Realm">
+				<object-create-rule classname="dev.foursix.xml.model.Realm" />
+				<set-properties-rule>
+					<alias attr-name="className" prop-name="className" />
+					<alias attr-name="resourceName" prop-name="resourceName" />
+					<alias attr-name="type" prop-name="type" />
+					<alias attr-name="connectionTimeout" prop-name="connectionTimeout" />
+					<alias attr-name="redirectPort" prop-name="redirectPort" />
+				</set-properties-rule>
+				<set-next-rule methodname="addRealm"/>		
+			</pattern>
+			
+			<pattern value="Host">
+				<object-create-rule classname="dev.foursix.xml.model.Host" />
+				<set-properties-rule>
+					<alias attr-name="name" prop-name="name" />
+					<alias attr-name="appBase" prop-name="appBase" />
+					<alias attr-name="unpackWARs" prop-name="unpackWARs" />
+					<alias attr-name="autoDeploy" prop-name="autoDeploy" />
+					<alias attr-name="xmlValidation" prop-name="xmlValidation" />
+					<alias attr-name="xmlNamespaceAware" prop-name="xmlNamespaceAware" />
+				</set-properties-rule>
+				<set-next-rule methodname="addHost"/>		
+			</pattern>
+			
+			<set-next-rule methodname="addEngine"/>		
+		</pattern>
+		<set-next-rule methodname="addService"/>		
+	</pattern>
+	
+</digester-rules>
+  
+  
